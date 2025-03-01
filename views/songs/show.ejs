@@ -1,0 +1,150 @@
+
+<% layout ('layouts/boilerplate')%>
+<style>
+  .word {
+cursor: pointer;
+color: blue;
+}
+</style>
+<div class="container my-5">
+  <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg dark-backround">
+    <div class="col-lg-7 p-3 p-lg-5 pt-lg-3 text-white ">
+      <h1 class="display-4 fw-bold lh-1"><%= song.details.title %> </h1>
+      <p class="lead"> <%= song.details.artist_names%></p>
+      <p class="text-white"> <%= song.details.release_date_for_display%></p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+        <% if (song.details.media.length >= 1) { %>
+           <a href=" <%= song.details.media[0].url%>" class="btn btn-danger btn-lg px-4 me-md-2 fw-bold" target="_blank"><i class="fa-brands fa-youtube p-1"></i>Watch</a>
+       <% } %>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container" >
+      <div class="mx-auto">
+          <% if (song.details) { %>
+            <div class="shadow bg-body rounded">
+          <div class="card my-3 px-2 py-4">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-4 col-md-2">
+                            <div class="d-flex justify-content-evenly"> 
+                              <label class="mx-2" >Select Key</label>
+                              <select id="selectBaseChord" >Type
+                              </select>
+                              <button type="button" class="btn btn-primary ms-3">Add Section</button>
+                            </div>
+                          </div>
+                        </div>
+
+                          <div class="container-fluid">
+                              <div class="row justify-content-center lyricsSection" data-songId = "<%= song.details.id %>">
+                                <% song.lyrics.forEach(function(lyric, typeIndex) { %>
+                                   <div class="lyricSection d-flex flex-column align-items-center mb-4 " data-section="<%= lyric.section %>"><%=lyric.section%><br> 
+                                   <% lyric.lyrics.split('\n').forEach(function(line, lineIndex) { %>                     
+                                      <div class="lyric-container d-inline-flex bd-highlight"> 
+                                        <div class="lyric-segment">
+                                          <div class="chords">                   
+                                          </div>                     
+                                          <div class="lyrics">
+                                            <span class="word" data-line="<%= lineIndex %>" data-section="<%= lyric.section %>"> <%- line %> </span>
+                                        </div>  
+                                        </div>
+                                    </div>
+                              <% }) %>
+                            </div>
+                              <% }) %>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <a class="btn btn-primary m-auto" id="saveChordsBtn">Save <%= song.details.title %></a>
+                          </div>
+                         
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <% } %>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  
+   
+
+<!-- Modal -->
+<div class="modal fade" id="chordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title chordModalTitle" id="exampleModalLabel" >Add Chord for Lyric</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex flex-row-reverse bd-highlight ">
+          <div class="col-sm-2 my-2">
+            <select class="form-select p-1" id="baseChord" aria-label="Default select example">
+            </select>
+          </div>
+
+        </div>
+        <form id="chordModalForm">
+          <div class="container-fluid chordModalLyrics">
+          </div>
+        <div class="input-group mb-3">
+          <input type="hidden" class="form-control lyricSection" placeholder="Chord" name=lyricSection">
+          <input type="hidden" class="form-control lyricIndex" placeholder="Chord" name=lyricIndex">
+          <input type="hidden" class="form-control lyricLine" placeholder="Chord" name=lyricLine">
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="chordModalSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="sectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title sectionModalTitle" id="sectionModal" >Add Chord for Lyric</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form id="sectionModalForm">
+          <div class="sectionModalSection">
+           
+          </div>
+     
+         
+        <div class="input-group mb-3">
+          <input type="hidden" class="form-control lyricSection" placeholder="Chord" name=lyricSection">
+          <input type="hidden" class="form-control lyricIndex" placeholder="Chord" name=lyricIndex">
+          <input type="hidden" class="form-control lyricLine" placeholder="Chord" name=lyricLine">
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="sectionModalSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+   
+   
+</body>
+<script src="/scales.js"></script>
+<script src="/showSong.js"></script>
+</html>

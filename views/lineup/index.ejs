@@ -1,0 +1,137 @@
+<% layout ('layouts/boilerplate')%>
+<h1>LineUp</h1>  
+<head>
+  <link rel="stylesheet" href="/css/lineup/index.css">
+</head>
+<div class="container-fluid ">
+  <!-- <div class="row">
+    <div class="col-lg-4">
+        <div class="card card-margin">
+            <div class="card-header no-border">
+            </div>
+            <div class="card-body pt-0">
+                <div class="widget-49">
+                    <div class="widget-49-title-wrapper">
+                        <div class="widget-49-date-primary">
+                            <span class="widget-49-date-day">09</span>
+                            <span class="widget-49-date-month">apr</span>
+                        </div>
+                        <div class="widget-49-meeting-info">
+                            <span class="widget-49-pro-title">PRO-08235 DeskOpe. Website</span>
+                            <span class="widget-49-meeting-time">12:00 to 13.30 Hrs</span>
+                        </div>
+                    </div>
+                    <ol class="widget-49-meeting-points">
+                        <li class="widget-49-meeting-item"><span>Expand module is removed</span></li>
+                        <li class="widget-49-meeting-item"><span>Data migration is in scope</span></li>
+                        <li class="widget-49-meeting-item"><span>Session timeout increase to 30 minutes</span></li>
+                    </ol>
+                    <div class="widget-49-meeting-action">
+                        <a href="#" class="btn btn-sm btn-flash-border-primary">View All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div> -->
+<div class="row" id="demo">
+  <div class="col-sm-12 col-md-10">
+  <% lineup.forEach((songs) => { %>
+    <div class="card m-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= songs.lineupDate.toDateString() %></h5>
+        <p class="card-text fw-bold">Worship Leader : Clarissa R.</p>
+        <!-- Add more properties as needed -->
+        <ul class="list-group list-group-flush"> 
+        <% songs.songs.forEach((song)=>{ %>
+          <li class="list-group-item">
+          <span  class="fw-normal" ><%= `${song.songType.toUpperCase()}`%></span>
+          <span  class="fst-italic"><%= `${song.song.title}`%></span> 
+            <span  class="fw-bold" >Key: <%= `${song.keyUsed.toUpperCase()}`%></span>
+        <% })%>
+      </ul>
+      <a href="/lineup/live?id=<%= songs._id %>" class="btn btn-primary mt-1">Select Lineup</a>
+      </div>
+    </div>
+  <% }); %>
+  
+     
+    </div>
+  </div>
+</div>
+  
+   
+
+<!-- Modal -->
+<div class="modal fade" id="chordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title chordModalTitle" id="exampleModalLabel" >Add Chord for Lyric</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex flex-row-reverse bd-highlight ">
+          <div class="col-sm-2 my-2">
+            <select class="form-select p-1" id="baseChord" aria-label="Default select example">
+            </select>
+          </div>
+
+        </div>
+        <form id="chordModalForm">
+          <div class="container-fluid chordModalLyrics">
+          </div>
+        <div class="input-group mb-3">
+          <input type="hidden" class="form-control lyricSection" placeholder="Chord" name=lyricSection">
+          <input type="hidden" class="form-control lyricIndex" placeholder="Chord" name=lyricIndex">
+          <input type="hidden" class="form-control lyricLine" placeholder="Chord" name=lyricLine">
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="chordModalSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="sectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title sectionModalTitle" id="sectionModal" >Add Chord for Lyric</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form id="sectionModalForm">
+          <div class="sectionModalSection">
+           
+          </div>
+     
+         
+        <div class="input-group mb-3">
+          <input type="hidden" class="form-control lyricSection" placeholder="Chord" name=lyricSection">
+          <input type="hidden" class="form-control lyricIndex" placeholder="Chord" name=lyricIndex">
+          <input type="hidden" class="form-control lyricLine" placeholder="Chord" name=lyricLine">
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="sectionModalSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+<script>
+
+</script>
+   
+</body>
+
+</html>

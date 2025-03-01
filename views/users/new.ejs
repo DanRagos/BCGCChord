@@ -1,0 +1,122 @@
+<% layout ('layouts/boilerplate')%>
+<h1 class="mb-3">Register Account</h1>  
+<div class="container-fluid">
+    <form id="registrationForm">
+    <div class="input-group mb-3">
+        <span class="input-group-text">First and Last name</span>
+        <input type="text"  name="firstname" aria-label="First name" class="form-control">
+        <input type="text" name="lastname" aria-label="Last name" class="form-control">
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Role</label>
+        <select class="form-select" id="inputGroupSelect01" name="role">
+          <option value="musicMin" selected>Musician</option>
+          <option value="worshipLead">Worship Leader</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="Church">Church</label>
+        <select class="form-select" id="Church" name="church">
+        </select>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">Username</span>
+        <input type="text" name="username" aria-label="First name" class="form-control">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">Password</span>
+        <input type="password" name="password"  aria-label="First name" class="form-control">
+      </div>
+
+      <button type="button" class="m-auto btn btn-primary d-flex" id="userRegister">Register</button>
+    </form>
+</div>
+<br>
+
+<!-- Modal -->
+<div class="modal fade" id="sectionModal" tabindex="-1" aria-labelledby="sectionModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title chordModalTitle" id="sectionModal" >Add Section</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex flex-row-reverse bd-highlight ">
+         
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="lineUpSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="sectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title sectionModalTitle" id="sectionModal" >Add Chord for Lyric</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form id="sectionModalForm">
+          <div class="sectionModalSection">
+           
+          </div>
+        <div class="input-group mb-3">
+          <input type="hidden" class="form-control lyricSection" placeholder="Chord" name=lyricSection">
+          <input type="hidden" class="form-control lyricIndex" placeholder="Chord" name=lyricIndex">
+          <input type="hidden" class="form-control lyricLine" placeholder="Chord" name=lyricLine">
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="sectionModalSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function (){
+        getOrg();
+
+        async function getOrg () {
+            let church = $('#Church');
+            let html = '';
+            let churches = await axios.get('/org');
+            console.log(churches);
+            churches.data.forEach((church, index)=> {
+                html+= `
+                    <option value="${church._id}" ${index == 0 ? "selected": '' }>${church.name}</option> 
+                `;
+            });
+            church.html(html);
+        }
+
+        $('#userRegister').on('click', async function(){
+            try{
+                let formData = $('#registrationForm').serialize();
+                console.log(formData);
+                let res = await axios.post('/users/signup', formData);
+                console.log(res);
+            }catch(error){
+                console.log(error)
+            }
+        });
+
+    });
+</script>
+</body>
+
+</html>

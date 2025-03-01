@@ -1,0 +1,173 @@
+<% layout ('layouts/boilerplate')%>
+<head>
+  
+</head>
+
+<div class="container-fluid ">
+  <h1 class="m-auto">LineUp</h1>  
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="songLink">Select Song</label>
+            <select class="form-select m-auto" id="songLink">
+              <option selected>--</option>
+              <% lineup.songs.forEach((song, index)=>{ %>
+                <option class="nav-item songLink" data-keyUsed = "<%=song.keyUsed %>"data-songName = "<%=song.song.title %>" data-songId="<%=song.song.songId%>">
+                  <%= song.song.title %>
+                </option>
+                <%})%>  
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-8" >
+                <div class="card" style="background-color: #140501"">
+                    <div class="card-header songHeader mt-1">
+                      <div class="d-flex flex-row"> 
+                        <label class="mx-2 text-white fs-bold">Transpose</label>
+                        <select class="border border-white rounded bg-dark text-white" id="selectBaseChord">Type
+                        </select>
+                      </div>
+                    </div>
+                    <div class="card-body songBody text-white">
+
+                      <h5 class="card-title songTitle text-center">Title</h5>
+                      <div class="scrollable-content"> 
+                      <div class="row justify-content-center lyricsSection">
+                      </div>
+                    </div>
+                      
+                    </div>
+                  </div>
+            
+
+        </div>
+    </div>
+   
+
+  </div>
+
+  
+   
+
+<!-- Modal -->
+<div class="modal fade" id="chordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title chordModalTitle" id="exampleModalLabel" >Add Chord for Lyric</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex flex-row-reverse bd-highlight ">
+          <div class="col-sm-2 my-2">
+            <select class="form-select p-1" id="baseChord" aria-label="Default select example">
+            </select>
+          </div>
+
+        </div>
+        <form id="chordModalForm">
+          <div class="container-fluid chordModalLyrics">
+          </div>
+        <div class="input-group mb-3">
+          <input type="hidden" class="form-control lyricSection" placeholder="Chord" name=lyricSection">
+          <input type="hidden" class="form-control lyricIndex" placeholder="Chord" name=lyricIndex">
+          <input type="hidden" class="form-control lyricLine" placeholder="Chord" name=lyricLine">
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="chordModalSaveBtn" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+    
+
+<script src="/scales.js"></script>
+<script src="/chordSheet.js"></script>
+<script src="/chordTranspose.js"></script>
+<script src="/renderChords.js"> </script>
+   <script>
+    $(document).ready(function(){
+  var song;
+  $('#songLink').on('change', async function() {
+    originalKey = $(this).find('option:selected').attr('data-keyused').toLocaleLowerCase();
+    let id = $(this).find('option:selected').data('songid');
+    let songName = $(this).find('option:selected').data('songname');
+    $('.songTitle').text(songName);
+    song = await renderLyrics(id);
+    await renderChords(song);
+    selectChordKey();
+});
+
+        async function transposeChords(transposeKey) {
+
+const ChordSheet = ChordSheetJS; // Accessing the entire library
+  const originalKeyU = originalKey.toUpperCase();
+  // Using Chord.parse() method
+  const interval = calculateInterval(originalKeyU, transposeKey);
+
+  const transposedSegments = [];
+
+  for (const segment of song.segments) {
+      const transposedChords = [];
+
+      for (const chords of segment.chords) {
+          for (const chord of chords.chords) {
+              if (chord) {
+                  const chordEl = ChordSheet.Chord.parse(chord);
+                  const transposedChord = await chordEl.transpose(parseInt(interval));
+                  transposedChords.push(transposedChord.toString());
+              } else {
+                  transposedChords.push(null);
+              }
+          }
+      }
+
+      transposedSegments.push({ section: segment.section, chords: transposedChords });
+  }
+
+  return transposedSegments;
+}
+
+
+
+$(document).on('change', '#selectBaseChord', async function()   {
+
+  let transposeKey  = $(this).val().toUpperCase();
+
+  transposeChords(transposeKey)
+  .then(transposedSegments => {
+      transposedSegments.forEach((section)=>{
+        const findSection = $('.lyricsSection').find(`div[data-section = "${section.section}"]`);
+        console.log(section)
+        section.chords.forEach((chord, index)=>{
+          if (chord){
+            findSection.find('.lyric-segment .chords').eq(index).text(`${chord}`);
+          } 
+          else {
+            findSection.find('.lyric-segment .chords').eq(index).html('&nbsp;');
+          }
+       
+        });
+      });
+
+      // Do something with the transposed segments
+  })
+  .catch(error => {
+      console.error(error);
+      // Handle errors if needed
+  });
+
+ 
+});
+
+
+    })
+   </script>
+</body>
+
+</html>

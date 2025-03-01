@@ -1,0 +1,7 @@
+.hero {
+    background-color: whitesmoke;
+}
+
+.gradient-background {
+    background: linear-gradient(to right, #ff7e5f 0%, #feb47b 50%, #ff7e5f 100%); /* Adjust colors and stops as needed */
+}
