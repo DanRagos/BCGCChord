@@ -218,45 +218,32 @@ app.get('/song/viewChords/chords/:id', async (req, res)=>{
 
 //Lyrics
 
-app.get('/song/viewLyrics/:id', async (req, res)=> {
-    var renderedLyrics ='';
+app.get('/song/viewLyrics/:id', async (req, res) => {
+    try {
+        const response = await axios.get(`https://api.genius.com/songs/${req.params.id}`, {
+            headers: {
+                Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
+            }
+        });
 
-try {
-    const response = await axios.get(`https://api.genius.com/songs/${req.params.id}`, {
-        headers: {
-            Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
+        if (!response || !response.data) {
+            return res.status(500).send("Error: No response from API");
         }
-    }).catch(function (err ){
-        console.log(err)
-    });
-//     if (response.data.response.song.length <= 0) {
-//         res.status(500).send("No lyrics found");
-//     } 
-//     const lyrics = await extractLyrics(response.data.response.song.url);
-//     console.log(response.data.response.song.url);
-//     const yearReleased = new Date(response.data.response.song.release_date).getFullYear();
-//     const sections = parseSongData(lyrics)
-//     const newSong = new Song ({
-//         songId: response.data.response.song.id,
-//         title: response.data.response.song.title,
-//         author: response.data.response.song.primary_artist.name,
-//         genre: response.data.response.song.id,
-//         yearReleased: yearReleased,
-//         chords: null
-//     });
-//     newSong.lyrics = sections;
-//    console.log(response.data.response.song)
-//     res.render('songs/show', {song: {
-//         "details": response.data.response.song,
-//         "lyrics" : sections
-// }});
-res.send(response)
-}
-    catch (error){
-        res.status(500).send("Error fetching lyrics" + error)
-    }
 
+        res.json(response.data); // Send API response
+    } catch (error) {
+        console.error("Error fetching lyrics:", error.message);
+        
+        if (error.response) {
+            console.error("Status Code:", error.response.status);
+            console.error("Response Data:", error.response.data);
+            return res.status(error.response.status).send(error.response.data);
+        }
+        
+        res.status(500).send("Internal Server Error");
+    }
 });
+
 
 //lineup
 
