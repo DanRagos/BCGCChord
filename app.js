@@ -57,7 +57,7 @@ function parseSongData(songData) {
 }
 
 
-const uri = "mongodb+srv://admin:admin@cluster0.rogomdl.mongodb.net/BCGCChord?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin:admin@cluster0.rogomdl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(uri, {
 
   });
@@ -85,12 +85,15 @@ app.listen(PORT, () => {
 
 app.get('/song', async (req, res) => {
     try {
+        console.log("sd");
         const response = await axios.get(`https://api.genius.com/search?q=${encodeURIComponent(req.query.songTitle)}`, {
             headers: {
                 Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
-            }
-        });
-       
+            },
+            rejectUnauthorized: false
+
+        }).catch(function (error) { console.log(error)});
+        console.log("sd");
         
         const hits = response.data.response.hits;
             const existingSongs  = await Promise.all(hits.map(async(hit)=>{
@@ -223,6 +226,8 @@ try {
         headers: {
             Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
         }
+    }).catch(function (err ){
+        console.log(err)
     });
     if (response.data.response.song.length <= 0) {
         res.status(500).send("No lyrics found");
