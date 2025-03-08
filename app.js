@@ -28,13 +28,13 @@ function parseSongData(songData) {
     let sections = [];
 
     let currentSection = null;
-    
+
     for (const line of lines) {
         if (line.startsWith('[')) {
             // Extract the section type (e.g., [Verse], [Chorus])
             const sectionType = line.substring(1, line.indexOf(']'));
             // Initialize a new section object
-            
+
             currentSection = {
                 section: sectionType,
                 lyrics: ''
@@ -66,7 +66,7 @@ mongoose.connect(uri, {
   db.on('error', (error) => {
     console.error("MongoDB connection error:", error);
   });
-  
+
   db.once('open', () => {
     console.log("Connected to MongoDB Atlas");
   });
@@ -94,15 +94,15 @@ app.get('/song', async (req, res) => {
 
         }).catch(function (error) { console.log(error)});
         console.log("sd");
-        
+
         const hits = response.data.response.hits;
             const existingSongs  = await Promise.all(hits.map(async(hit)=>{
                 const { id, artist_names, release_date_for_display, title, url ="", header_image_url } = hit.result;
             const existingSong = await Song.findOne({songId:id});
-          
+
                 return { id, artist_names, release_date_for_display, title, url,  header_image_url, haveChords: !!existingSong }
        }));
-     
+
        res.render('songs/index', { hits: existingSongs }); // Passing hits as an object to the view
     } catch (error) {
         res.status(500).send('Internal Server Error' + error);
@@ -122,7 +122,7 @@ app.post('/song/:id', async (req, res) => {
                 chords: chordObj.chords,
                 line: chordObj.line
             }));
-        
+
             chordSegments.push({
                 section: sectionName,
                 chords: sectionSegments
@@ -211,7 +211,7 @@ app.get('/song/viewChords/chords/:id', async (req, res)=>{
     else {
         res.redirect('/home');
     }
-   
+
 });
 
 
@@ -220,29 +220,67 @@ app.get('/song/viewChords/chords/:id', async (req, res)=>{
 
 app.get('/song/viewLyrics/:id', async (req, res) => {
     try {
-        const response = await axios.get(`https://api.genius.com/songs/${req.params.id}`, {
+        const songId = req.params.id;
+        console.log("Fetching song with ID:", songId); // Log ID for debugging
+
+        const response = await axios.get(`https://api.genius.com/songs/${songId}`, {
             headers: {
                 Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
             }
         });
 
-        if (!response || !response.data) {
-            return res.status(500).send("Error: No response from API");
+        if (!response || !response.data || !response.data.response.song) {
+            return res.status(404).send("Error: Song not found");
         }
 
-        res.json(response.data); // Send API response
+        const songData = response.data.response.song;
+        console.log("Fetched song:", songData.title); // Log song title for debugging
+
+        // Extract lyrics from the song URL
+        try {
+            const lyrics = await extractLyrics(songData.url);
+            console.log("Extracted Lyrics URL:", songData.url);
+
+            const yearReleased = songData.release_date ? new Date(songData.release_date).getFullYear() : "Unknown";
+
+            const sections = parseSongData(lyrics);
+
+            const newSong = new Song({
+                songId: songData.id,
+                title: songData.title,
+                author: songData.primary_artist.name,
+                genre: songData.id, // Shouldn't genre be different from song ID?
+                yearReleased: yearReleased,
+                chords: null,
+                lyrics: sections
+            });
+
+            console.log("Rendering song view...");
+            res.render('songs/show', {
+                song: {
+                    details: songData,
+                    lyrics: sections
+                }
+            });
+
+        } catch (err) {
+            console.error("Error extracting lyrics:", err.message);
+            res.status(500).send("Error extracting lyrics");
+        }
+
     } catch (error) {
-        console.error("Error fetching lyrics:", error.message);
-        
+        console.error("Error fetching song data:", error.message);
+
         if (error.response) {
             console.error("Status Code:", error.response.status);
             console.error("Response Data:", error.response.data);
             return res.status(error.response.status).send(error.response.data);
         }
-        
+
         res.status(500).send("Internal Server Error");
     }
 });
+
 
 
 //lineup
@@ -276,10 +314,10 @@ app.get('/lineup/live', async (req,res)=>{
         if (!lineup || lineup.length === 0) {
             return res.status(404).json({ error: 'Lineup not found' });
         }
-    
+
             res.render('lineup/live', {lineup});
-        
-       
+
+
 })
 
 app.get('/lineup/new', async (req, res)=>{
@@ -325,7 +363,7 @@ app.post('/users/signup', async (req, res) => {
             role,
             organization: church // Assuming church is the organization ID
         });
- 
+
         // Save the new user to the database
         const savedUser = await newUser.save();
 
