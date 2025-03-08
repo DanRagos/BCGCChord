@@ -229,27 +229,28 @@ try {
     }).catch(function (err ){
         console.log(err)
     });
-    if (response.data.response.song.length <= 0) {
-        res.status(500).send("No lyrics found");
-    } 
-    const lyrics = await extractLyrics(response.data.response.song.url);
-    console.log(response.data.response.song.url);
-    const yearReleased = new Date(response.data.response.song.release_date).getFullYear();
-    const sections = parseSongData(lyrics)
-    const newSong = new Song ({
-        songId: response.data.response.song.id,
-        title: response.data.response.song.title,
-        author: response.data.response.song.primary_artist.name,
-        genre: response.data.response.song.id,
-        yearReleased: yearReleased,
-        chords: null
-    });
-    newSong.lyrics = sections;
-   console.log(response.data.response.song)
-    res.render('songs/show', {song: {
-        "details": response.data.response.song,
-        "lyrics" : sections
-}})
+//     if (response.data.response.song.length <= 0) {
+//         res.status(500).send("No lyrics found");
+//     } 
+//     const lyrics = await extractLyrics(response.data.response.song.url);
+//     console.log(response.data.response.song.url);
+//     const yearReleased = new Date(response.data.response.song.release_date).getFullYear();
+//     const sections = parseSongData(lyrics)
+//     const newSong = new Song ({
+//         songId: response.data.response.song.id,
+//         title: response.data.response.song.title,
+//         author: response.data.response.song.primary_artist.name,
+//         genre: response.data.response.song.id,
+//         yearReleased: yearReleased,
+//         chords: null
+//     });
+//     newSong.lyrics = sections;
+//    console.log(response.data.response.song)
+//     res.render('songs/show', {song: {
+//         "details": response.data.response.song,
+//         "lyrics" : sections
+// }});
+res.send(response)
 }
     catch (error){
         res.status(500).send("Error fetching lyrics" + error)
