@@ -13,8 +13,6 @@ const User = require('./models/user');
 const ChordSheetJS = require('chordsheetjs').default;
 const { Chord } = require('chordsheetjs');
 const bodyParser = require('body-parser');
-// require('dotenv').config()
-
 
 app.engine('ejs',ejsMate)
 app.set('view engine', 'ejs');
@@ -263,7 +261,7 @@ app.get('/lineup', async (req, res)=>{
     }).populate('songs.song');
     console.log(lineup)
     res.json(lineup);
-});
+}); 
 
 app.get('/lineup/show', async (req, res)=>{
     const lineup = await Lineup.find({})
