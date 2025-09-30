@@ -12,7 +12,7 @@
             <select class="form-select m-auto" id="songLink">
               <option selected>--</option>
               <% lineup.songs.forEach((song, index)=>{ %>
-                <option class="nav-item songLink" data-keyUsed = "<%=song.keyUsed %>"data-songName = "<%=song.song.title %>" data-songId="<%=song.song.songId%>">
+                <option class="nav-item songLink" data-baseKey = "<%=song.song.baseKey %>" data-keyUsed = "<%=song.keyUsed %>"data-songName = "<%=song.song.title %>" data-songId="<%=song.song.songId%>">
                   <%= song.song.title %>
                 </option>
                 <%})%>  
@@ -91,19 +91,23 @@
 <script src="/chordTranspose.js"></script>
 <script src="/renderChords.js"> </script>
    <script>
-    $(document).ready(function(){
+$(document).ready(function(){
   var song;
   $('#songLink').on('change', async function() {
-    originalKey = $(this).find('option:selected').attr('data-keyused').toLocaleLowerCase();
+    let keyUsed = $(this).find('option:selected').attr('data-keyused').toLocaleLowerCase();
+    originalKey = $(this).find('option:selected').attr('data-basekey').toLocaleLowerCase();
     let id = $(this).find('option:selected').data('songid');
     let songName = $(this).find('option:selected').data('songname');
     $('.songTitle').text(songName);
     song = await renderLyrics(id);
     await renderChords(song);
-    selectChordKey();
+    selectChordKey(keyUsed);
+    if (originalKey != keyUsed) {
+      $(document).find('#selectBaseChord').trigger("change");
+    }
 });
 
-        async function transposeChords(transposeKey) {
+async function transposeChords(transposeKey, originalKey) {
 
 const ChordSheet = ChordSheetJS; // Accessing the entire library
   const originalKeyU = originalKey.toUpperCase();
@@ -139,7 +143,7 @@ $(document).on('change', '#selectBaseChord', async function()   {
 
   let transposeKey  = $(this).val().toUpperCase();
 
-  transposeChords(transposeKey)
+  transposeChords(transposeKey, originalKey)
   .then(transposedSegments => {
       transposedSegments.forEach((section)=>{
         const findSection = $('.lyricsSection').find(`div[data-section = "${section.section}"]`);

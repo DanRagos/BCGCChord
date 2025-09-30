@@ -278,12 +278,13 @@ app.get('/lineup/live', async (req,res)=>{
         .populate({
             path: 'songs.song',
             model: 'Song',
-            select: 'title songId' // Select only the title field of the Song
+            select: 'title songId baseKey' // Select only the title field of the Song
         });
 
         if (!lineup || lineup.length === 0) {
             return res.status(404).json({ error: 'Lineup not found' });
         }
+        console.log(lineup)
     
             res.render('lineup/live', {lineup});
         

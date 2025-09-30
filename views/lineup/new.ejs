@@ -119,14 +119,15 @@
     $(document).ready(function(){
       var timeoutId ;
       let songsCollection = [];
-
-        function selectChordKey () {
+      
+        function selectChordKey (originalKey) {
         let index = 0;
         let html ='';
-        let selectChordKey = $('#selectBaseChord');
-
+        let selectChordKey = $(document).find('#selectChordKey');
+         console.log(selectChordKey)   
         for (scale in scales){
             html +=`<option value=${scale} ${originalKey == scale ? "selected" : ''}> ${scale.toUpperCase()} </option>`
+            console.log(scale)
         }
         selectChordKey.html(html)
       }
@@ -185,6 +186,7 @@
         let baseKey = $(this).attr('data-baseKey');
         let listSong = $('.listSongs');
         let song = $(this).text();
+      
         listSong.append(`  
         <li class="list-group-item d-flex justify-content-between align-items-start lineupList" data-songId="${songId}" data-baseKey="${baseKey}">
     <div class="ms-2 me-auto">
@@ -195,17 +197,20 @@
                 <option value="opening">Opening</option>
                 <option value="praise">Praise</option>
                 <option value="worship">Worship</option>
+                <option value="response">Response</option>
+                <option value="offering">Offering</option>
+                <option value="communion">Communion</option>
                 <option value="closing">Closing</option>
             </select>
             <label class="form-label m-1">Key</label>
-            <select class="form-select form-select-sm keyUsed">
-                <option class="p-1" value="${baseKey.toLowerCase()}" selected>${baseKey}</option>
+            <select id="selectChordKey" class="form-select form-select-sm keyUsed">
             </select>
         </div>
     </div>
     <span class="badge bg-primary rounded-pill"> <i class="fa fa-times" aria-hidden="true"></i></span>
 </li>
-`)
+`);
+  selectChordKey(baseKey);
       });
 
     $('#lineUpSaveBtn').click(  function(){

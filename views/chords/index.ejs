@@ -124,17 +124,17 @@
 <script>
   $(document).ready(async function(){
     let song;
-
+    let originalKey = $('#selectBaseChord').attr("data-key");
     
     
     song = await renderLyrics();
     renderChords (song);
 
-    selectChordKey();
+    selectChordKey(originalKey);
 
   
 
-async function transposeChords(transposeKey) {
+async function transposeChords(transposeKey, originalKey) {
 
   const ChordSheet = ChordSheetJS; // Accessing the entire library
     const originalKeyU = originalKey.toUpperCase();
@@ -170,7 +170,7 @@ $(document).on('change', '#selectBaseChord', async function()   {
   
     let transposeKey  = $(this).val().toUpperCase();
 
-    transposeChords(transposeKey)
+    transposeChords(transposeKey, originalKey)
     .then(transposedSegments => {
         transposedSegments.forEach((section)=>{
           const findSection = $('.lyricsSection').find(`div[data-section = "${section.section}"]`);

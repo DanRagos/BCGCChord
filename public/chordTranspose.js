@@ -1,9 +1,7 @@
-var originalKey = $('#selectBaseChord').attr('data-key').toLocaleLowerCase() || "";
+// var originalKey = $(document).find('#selectBaseChord').attr('data-key').toLocaleLowerCase() || "";
 
 
-function selectChordKey () {
-   
-    let index = 0;
+function selectChordKey (originalKey) {
     let html ='';
     let selectChordKey = $('#selectBaseChord');
     
