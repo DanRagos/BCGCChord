@@ -56,6 +56,7 @@ function parseSongData(songData) {
 
 
 const uri = "mongodb+srv://admin:admin@cluster0.rogomdl.mongodb.net/BCGCChord?retryWrites=true&w=majority";
+// const uri ="mongodb://localhost:27017/BCGC";
 mongoose.connect(uri, {
 
   });
@@ -83,7 +84,6 @@ app.listen(PORT, () => {
 
 app.get('/song', async (req, res) => {
     try {
-        console.log("sd");
         const response = await axios.get(`https://api.genius.com/search?q=${encodeURIComponent(req.query.songTitle)}`, {
             headers: {
                 Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
@@ -91,8 +91,6 @@ app.get('/song', async (req, res) => {
             rejectUnauthorized: false
 
         }).catch(function (error) { console.log(error)});
-        console.log("sd");
-        
         const hits = response.data.response.hits;
             const existingSongs  = await Promise.all(hits.map(async(hit)=>{
                 const { id, artist_names, release_date_for_display, title, url ="", header_image_url } = hit.result;
@@ -112,20 +110,26 @@ app.post('/song/:id', async (req, res) => {
         const segment = req.body;
         const key = req.body.baseKey;
         const chordSegments = [];
-        console.log(segment);
 
-        for (const sectionName in segment.chordObj) {
-            const sectionSegments = segment.chordObj[sectionName].map(chordObj => ({
-                lyricSection: chordObj.lyricSection,
-                chords: chordObj.chords,
-                line: chordObj.line
-            }));
-        
-            chordSegments.push({
-                section: sectionName,
-                chords: sectionSegments
-            });
+        if (segment.ultimateGuiter){
+            chordSegments = segment.ultimateGuiter;
         }
+        else {
+            for (const sectionName in segment.chordObj) {
+                const sectionSegments = segment.chordObj[sectionName].map(chordObj => ({
+                    lyricSection: chordObj.lyricSection,
+                    chords: chordObj.chords,
+                    line: chordObj.line
+                }));
+            
+                chordSegments.push({
+                    section: sectionName,
+                    chords: sectionSegments
+                });
+            }
+        }
+
+
 
 
         // Fetch song data from Genius API
@@ -217,36 +221,34 @@ app.get('/song/viewChords/chords/:id', async (req, res)=>{
 //Lyrics
 
 app.get('/song/viewLyrics/:id', async (req, res)=> {
-    var renderedLyrics ='';
 
-try {
-    const response = await axios.get(`https://api.genius.com/songs/${req.params.id}`, {
-        headers: {
-            Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
-        }
-    });
-    if (response.data.response.song.length <= 0) {
-        res.status(500).send("No lyrics found");
-    } 
-    const lyrics = await extractLyrics(response.data.response.song.url);
-    console.log(response.data.response.song.url);
-    const yearReleased = new Date(response.data.response.song.release_date).getFullYear();
-    const sections = parseSongData(lyrics)
-    const newSong = new Song ({
-        songId: response.data.response.song.id,
-        title: response.data.response.song.title,
-        author: response.data.response.song.primary_artist.name,
-        genre: response.data.response.song.id,
-        yearReleased: yearReleased,
-        chords: null
-    });
-    newSong.lyrics = sections;
-   console.log(response.data.response.song)
-    res.render('songs/show', {song: {
-        "details": response.data.response.song,
-        "lyrics" : sections
-}})
-}
+    try {
+        const response = await axios.get(`https://api.genius.com/songs/${req.params.id}`, {
+            headers: {
+                Authorization: `Bearer T4aiTcmsatGLj4U66lYW8LZ9XlGAwasfuDisO5po8A_eX8p046HDt5TiAXeFBlhs`
+            }
+        });
+        if (response.data.response.song.length <= 0) {
+            res.status(500).send("No lyrics found");
+        } 
+        const lyrics = await extractLyrics(response.data.response.song.url);
+        console.log(response.data.response.song.url);
+        const yearReleased = new Date(response.data.response.song.release_date).getFullYear();
+        const sections = parseSongData(lyrics)
+        const newSong = new Song ({
+            songId: response.data.response.song.id,
+            title: response.data.response.song.title,
+            author: response.data.response.song.primary_artist.name,
+            genre: response.data.response.song.id,
+            yearReleased: yearReleased,
+            chords: null
+        });
+        newSong.lyrics = sections;
+        res.render('songs/show', {song: {
+            "details": response.data.response.song,
+            "lyrics" : sections
+        }})
+    }
     catch (error){
         res.status(500).send("Error fetching lyrics" + error)
     }
@@ -346,3 +348,147 @@ app.post('/users/signup', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+app.get("/parse/new", async (req, res) => {
+    try {
+        res.render("parse/new")
+    } catch (error) {
+        res.status(500).json({error: `Internal server error ${error}`});
+    }
+});
+
+app.post("/parse/new", async (req, res) => {
+  try {
+    const chordsheet = req.body.chordsheet;
+    const parser = new ChordSheetJS.UltimateGuitarParser();
+    const song = parser.parse(chordsheet);
+    
+    const segments = [];
+    let currentSegment = { section: null, chords: [] };
+
+    // Track counts for Verse, Chorus, etc.
+    const sectionCounters = {};
+
+    song.lines.forEach(line => {
+        console.log(line)
+        let lyricSection = [];
+        let wholeLyric = [];
+        let chord = [];
+        let lastIndex = 0;
+        let lyricString;
+      
+      if (!line.items || line.items.length === 0) return;
+      const first = line.items[0];
+
+
+      if (line.items && line.items.length > 0) {
+    // Get only the lyrics text from each pair
+         lyricString = line.items
+      .map(item => item.lyrics || "")
+      .join(""); // concatenate them properly
+      } 
+
+        wholeLyric.push(lyricString);
+      // --- Handle section start tags (Verse, Chorus, etc.)
+      if (first._originalName === "start_of_verse" || first._originalName === "start_of_chorus") {
+        if (currentSegment.chords.length > 0) {
+          segments.push(currentSegment);
+        }
+
+        // Normalize section type
+        let sectionType =
+          first._originalName === "start_of_verse" ? "Verse" : "Chorus";
+
+        // Increment counter
+        if (!sectionCounters[sectionType]) {
+          sectionCounters[sectionType] = 1;
+        } else {
+          sectionCounters[sectionType]++;
+        }
+
+        // Name with number
+        const numberedName = `${sectionType} ${sectionCounters[sectionType]}`;
+
+        currentSegment = { section: numberedName, chords: [] };
+        return;
+      }
+
+      // --- Handle comments (Pre-Chorus, Bridge, etc.)
+      if (first._originalName === "comment") {
+        if (currentSegment.chords.length > 0) {
+          segments.push(currentSegment);
+        }
+
+        let commentName = first._value || "Comment";
+
+        // Optional: Auto-number repeated comments too
+        if (!sectionCounters[commentName]) {
+          sectionCounters[commentName] = 1;
+        } else {
+          sectionCounters[commentName]++;
+        }
+        commentName = `${commentName} ${sectionCounters[commentName]}`;
+
+        currentSegment = { section: commentName, chords: [] };
+        return;
+      }
+
+      // --- Handle section end tags
+      if (first._originalName === "end_of_verse" || first._originalName === "end_of_chorus") {
+        if (currentSegment.chords.length > 0) {
+          segments.push(currentSegment);
+          currentSegment = { section: null, chords: [] };
+        }
+        return;
+      }
+
+      // --- Handle ChordLyricsPair
+      line.items.forEach((el, index) => {
+        if (el.chords !== undefined && el.lyrics !== undefined) {
+            lyricSection.push(el.lyrics.trim());
+            chord.push(el.chords.trim());
+            lastIndex = index;
+        }
+      });
+      currentSegment.chords.push({
+        "lyricSection" : lyricSection,
+        "chords" : chord,
+        "line" : lastIndex,
+        "wholeLyric" : lyricString
+      });
+    //   segments.push(currentSegment.chords["lyricsSection"] = lyricSection);
+    //   segments.push(currentSegment.chords["chords"] = chord);
+    //   const lineData = line.items
+    //     .map(item => {
+    //       if (item.chords !== undefined && item.lyrics !== undefined) {
+    //         return [
+    //           item.chords.trim()
+    //             ? { type: "chord", value: item.chords.trim() }
+    //             : { type: "chord", value: "" },
+    //           item.lyrics.trim()
+    //             ? { type: "lyric", value: item.lyrics.trim() }
+    //             : null
+    //         ].filter(Boolean);
+    //       }
+    //       return [];
+    //     })
+    //     .flat();
+
+    //   if (lineData.length > 0) {
+    //     currentSegment.chords.push(lineData);
+    //   }
+    });
+
+    // Push last segment
+    if (currentSegment.chords.length > 0) {
+      segments.push(currentSegment);
+    }
+
+    res.json({ segments });
+  } catch (err) {
+    console.error("Parse error:", err);
+    res.status(500).json({ error: "Failed to parse", details: err.message });
+  }
+});
+
+

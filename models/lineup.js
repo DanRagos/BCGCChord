@@ -8,7 +8,7 @@ const LineupSchema = new Schema({
         keyUsed: { type: String },
         songType: {
             type: String,
-            enum: ['opening', 'praise', 'worship', 'response', 'offering', 'closing']
+            enum: ['opening', 'praise', 'worship', 'response', 'offering', 'communion', 'closing']
         },
     }],
     lineupDate: { type: Date },

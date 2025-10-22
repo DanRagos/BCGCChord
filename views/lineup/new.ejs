@@ -123,7 +123,7 @@
         function selectChordKey (originalKey) {
         let index = 0;
         let html ='';
-        let selectChordKey = $(document).find('#selectChordKey');
+        let selectChordKey = $(document).find('.selectChordKey');
          console.log(selectChordKey)   
         for (scale in scales){
             html +=`<option value=${scale} ${originalKey == scale ? "selected" : ''}> ${scale.toUpperCase()} </option>`
@@ -203,7 +203,7 @@
                 <option value="closing">Closing</option>
             </select>
             <label class="form-label m-1">Key</label>
-            <select id="selectChordKey" class="form-select form-select-sm keyUsed">
+            <select class="form-select form-select-sm keyUsed selectChordKey">
             </select>
         </div>
     </div>

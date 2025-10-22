@@ -1,0 +1,103 @@
+<% layout ('layouts/boilerplate')%>
+<head>
+
+</head>
+<div class="container-fluid ">
+    <h1 class="m-auto">LineUp</h1>
+   
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <div class="input-group mb-3">
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <div class="card" style="background-color: #140501"">
+                <textarea id="chordSheet">
+
+                </textarea>
+
+                <button type="button" id="sendBtn" class="btn btn-primary">Save changes</button>
+                <!-- <div class="card-header songHeader mt-1">
+                    <div class="d-flex flex-row">
+                        <label class="mx-2 text-white fs-bold">Transpose</label>
+                        <select
+                            class="border border-white rounded bg-dark text-white"
+                            id="selectBaseChord">Type
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body songBody text-white">
+                    <h5 class="card-title songTitle text-center">Title</h5>
+                    <div class="scrollable-content">
+                        <div class="row justify-content-center lyricsSection">
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div id="song-container"></div>
+         <div class="container-fluid">
+              <div class="row justify-content-center lyricsSection" >
+            </div>          
+          </div>
+    </div>
+</div>
+<script src="/scales.js"></script>
+<script src="/chordSheet.js"></script>
+<script src="/chordTranspose.js"></script>
+<script src="/renderChords.js"> </script>
+<script>
+  $(document).ready(async function () {
+
+  
+
+ async function loadSong(chordsheet) {
+  let response = await axios.post(`/parse/new`, { chordsheet });
+  const segments = response.data.segments;
+  renderChords (response.data);
+  // const container = document.getElementById("song-container");
+  // container.innerHTML = ""; // clear previous
+
+  // segments.forEach(segment => {
+  //   // Section title (Verse, Chorus, etc.)
+  //   const sectionDiv = document.createElement("div");
+  //   sectionDiv.classList.add("section");
+
+  //   if (segment.section) {
+  //     const title = document.createElement("h3");
+  //     title.innerText = segment.section;
+  //     sectionDiv.appendChild(title);
+  //   }
+
+  //   // Render each line (chords above lyrics)
+  //   segment.lines.forEach(line => {
+  //     const chordLine = document.createElement("div");
+  //     const lyricLine = document.createElement("div");
+
+  //     chordLine.classList.add("chords");
+  //     lyricLine.classList.add("lyrics");
+
+  //     line.forEach(token => {
+  //       if (token.type === "chord") {
+  //         chordLine.innerHTML += `<span class="chord">${token.value}</span>`;
+  //         lyricLine.innerHTML += `<span class="lyric">${"&nbsp;".repeat(token.value.length)}</span>`;
+  //       } else if (token.type === "lyric") {
+  //         chordLine.innerHTML += `<span class="chord">${"&nbsp;".repeat(token.value.length)}</span>`;
+  //         lyricLine.innerHTML += `<span class="lyric">${token.value}</span>`;
+  //       }
+  //     });
+
+  //     sectionDiv.appendChild(chordLine);
+  //     sectionDiv.appendChild(lyricLine);
+  //   });
+
+  //   container.appendChild(sectionDiv);
+  // });
+}
+
+    $('#sendBtn').on("click", async function () {
+        let chordSheet = $('#chordSheet').val();
+      await loadSong(chordSheet);
+    });
+  });
+</script>
