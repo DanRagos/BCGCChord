@@ -55,7 +55,7 @@ function parseSongData(songData) {
 }
 
 
-const uri = "mongodb+srv://admin:admin@cluster0.rogomdl.mongodb.net/BCGCChord?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin:admin@cluster0.rogomdl.mongodb.net/BCGCChord?retryWrites=true&w=majority&appName=MongoDB%20Compass";
 // const uri ="mongodb://localhost:27017/BCGC";
 mongoose.connect(uri, {
 
