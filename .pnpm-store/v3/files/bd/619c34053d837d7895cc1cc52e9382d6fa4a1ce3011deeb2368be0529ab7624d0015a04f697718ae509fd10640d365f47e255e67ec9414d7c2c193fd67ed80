@@ -1,0 +1,78 @@
+{
+  "name": "chordsheetjs",
+  "author": "Martijn Versluis",
+  "version": "12.3.1",
+  "description": "A JavaScript library for parsing and formatting chord sheets",
+  "source": "src/index.ts",
+  "main": "lib/index.js",
+  "module": "lib/module.js",
+  "types": "lib/main.d.ts",
+  "files": [
+    "/lib"
+  ],
+  "bundle": {
+    "default": "lib/bundle.js",
+    "minified": "lib/bundle.min.js",
+    "globalName": "ChordSheetJS"
+  },
+  "license": "GPL-2.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/martijnversluis/ChordSheetJS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martijnversluis/ChordSheetJS/issues"
+  },
+  "homepage": "https://github.com/martijnversluis/ChordSheetJS",
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "@eslint/core": "^0.15.0",
+    "@eslint/js": "^9.11.0",
+    "@martijnversluis/unibuild": "^1.4.0",
+    "@parcel/packager-ts": "^2.15.4",
+    "@parcel/transformer-typescript-types": "^2.15.4",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "concat-md": "^0.5.1",
+    "detect-newline": "^4.0.1",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.11.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-jest": "^29.0.0",
+    "globals": "^16.0.0",
+    "jest": "^30.0.0",
+    "parcel": "^2.15.4",
+    "peggy": "^5.0.2",
+    "pegjs-backtrace": "^0.2.1",
+    "print": "^1.2.0",
+    "puppeteer": "^24.0.0",
+    "shx": "^0.4.0",
+    "theredoc": "^1.0.0",
+    "ts-jest": "^29.2.3",
+    "ts-node": "^10.9.2",
+    "ts-pegjs": "^3.0.0",
+    "tsx": "^4.10.5",
+    "typedoc": "^0.28.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.6.0"
+  },
+  "scripts": {
+    "build": "yarn unibuild",
+    "build:release": "yarn unibuild --force --release",
+    "ci": "yarn install && yarn unibuild ci",
+    "debug:chord": "yarn build && tsx script/debug_parser.ts chord",
+    "debug:chordpro": "yarn build && tsx script/debug_parser.ts chord_pro",
+    "debug:chords-over-words": "yarn build && tsx script/debug_parser.ts chords_over_words --include-chord-grammar",
+    "eslint": "node_modules/.bin/eslint",
+    "lint": "yarn unibuild lint",
+    "lint:fix": "yarn unibuild lint --fix",
+    "postversion": "yarn build:release",
+    "prepare": "yarn install && yarn build",
+    "release": "yarn unibuild release",
+    "test": "yarn unibuild lint && yarn unibuild test",
+    "unibuild": "tsx ./unibuild.ts"
+  },
+  "packageManager": "yarn@4.2.2"
+}

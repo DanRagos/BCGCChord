@@ -1,0 +1,1330 @@
+[
+  {
+    "_id": "65e92577bc156c16cd66e8d0",
+    "songId": 6545730,
+    "title": "Ang Lahat ay Magsasaya",
+    "artist": "Malayang pilipino",
+    "segments": [
+      {
+        "section": "Song",
+        "chords": [
+          {
+            "lyricSection": [
+              "Kami'y pinalaya"
+            ],
+            "chords": [
+              "D"
+            ],
+            "line": 0,
+            "_id": "65e92577bc156c16cd66e8d2"
+          },
+          {
+            "lyricSection": [
+              "Mula sa bihag ng ",
+              "kasalanan"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 1,
+            "_id": "65e92577bc156c16cd66e8d3"
+          },
+          {
+            "lyricSection": [
+              "Pinatawad"
+            ],
+            "chords": [
+              "D"
+            ],
+            "line": 2,
+            "_id": "65e92577bc156c16cd66e8d4"
+          },
+          {
+            "lyricSection": [
+              "Pinagpala ng ",
+              "lubusan"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 3,
+            "_id": "65e92577bc156c16cd66e8d5"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Di mapipigil ng ",
+              "pagsamba sa'yo"
+            ],
+            "chords": [
+              "F#m",
+              "Em",
+              "A"
+            ],
+            "line": 4,
+            "_id": "65e92577bc156c16cd66e8d6"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Hesus dakila kang ",
+              "totoo"
+            ],
+            "chords": [
+              "F#m",
+              "Em",
+              "A"
+            ],
+            "line": 5,
+            "_id": "65e92577bc156c16cd66e8d7"
+          },
+          {
+            "lyricSection": [
+              "Ang lahat ay ",
+              "magsasaya"
+            ],
+            "chords": [
+              "D",
+              "Bm"
+            ],
+            "line": 6,
+            "_id": "65e92577bc156c16cd66e8d8"
+          },
+          {
+            "lyricSection": [
+              "Hesus papupirihan ",
+              "ka"
+            ],
+            "chords": [
+              null,
+              "C"
+            ],
+            "line": 7,
+            "_id": "65e92577bc156c16cd66e8d9"
+          },
+          {
+            "lyricSection": [
+              "Ikaw lamang aming ",
+              "pag-asa"
+            ],
+            "chords": [
+              null,
+              "A"
+            ],
+            "line": 8,
+            "_id": "65e92577bc156c16cd66e8da"
+          },
+          {
+            "lyricSection": [
+              "Ang lahat ay ",
+              "magsasabi"
+            ],
+            "chords": [
+              "D",
+              "Bm"
+            ],
+            "line": 9,
+            "_id": "65e92577bc156c16cd66e8db"
+          },
+          {
+            "lyricSection": [
+              "Ang lahat ay ",
+              "luluhod"
+            ],
+            "chords": [
+              null,
+              "C"
+            ],
+            "line": 10,
+            "_id": "65e92577bc156c16cd66e8dc"
+          },
+          {
+            "lyricSection": [
+              "Hesus ",
+              "ikaw lamang ang Panginoon "
+            ],
+            "chords": [
+              null,
+              "F#m",
+              "A"
+            ],
+            "line": 11,
+            "_id": "65e92577bc156c16cd66e8dd"
+          },
+          {
+            "lyricSection": [
+              "Dakilang biyaya"
+            ],
+            "chords": [
+              "D"
+            ],
+            "line": 12,
+            "_id": "65e92577bc156c16cd66e8de"
+          },
+          {
+            "lyricSection": [
+              "Kami'y pinalaya"
+            ],
+            "chords": [
+              "D"
+            ],
+            "line": 13,
+            "_id": "65e92577bc156c16cd66e8df"
+          },
+          {
+            "lyricSection": [
+              "Mula sa bihag ",
+              "ng kasalanan"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 14,
+            "_id": "65e92577bc156c16cd66e8e0"
+          },
+          {
+            "lyricSection": [
+              "Pinatawad"
+            ],
+            "chords": [
+              "D"
+            ],
+            "line": 15,
+            "_id": "65e92577bc156c16cd66e8e1"
+          },
+          {
+            "lyricSection": [
+              "Pinagpala ng ",
+              "lubusan"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 16,
+            "_id": "65e92577bc156c16cd66e8e2"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Di mapipigil ng ",
+              "pagsamba sa'yo"
+            ],
+            "chords": [
+              "F#m",
+              "Em",
+              "A"
+            ],
+            "line": 17,
+            "_id": "65e92577bc156c16cd66e8e3"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Hesus dakila kang ",
+              "totoo"
+            ],
+            "chords": [
+              "F#m",
+              "Em",
+              "A"
+            ],
+            "line": 18,
+            "_id": "65e92577bc156c16cd66e8e4"
+          }
+        ],
+        "_id": "65e92577bc156c16cd66e8d1"
+      }
+    ],
+    "yearReleased": "August 12, 2016",
+    "__v": 0,
+    "baseKey": "D"
+  },
+  {
+    "_id": "65eac3c233e943b7405ea1fc",
+    "songId": 1953076,
+    "title": "Made Me Glad",
+    "artist": "Hillsong Worship",
+    "segments": [
+      {
+        "section": "Verse 1",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "I will bless the Lord ",
+              "forever"
+            ],
+            "chords": [
+              null,
+              "D",
+              "A"
+            ],
+            "line": 0,
+            "_id": "65eac3c233e943b7405ea1fe"
+          },
+          {
+            "lyricSection": [
+              "",
+              "And I will trust Him at all ",
+              "times"
+            ],
+            "chords": [
+              null,
+              "D",
+              "A"
+            ],
+            "line": 1,
+            "_id": "65eac3c233e943b7405ea1ff"
+          },
+          {
+            "lyricSection": [
+              "",
+              "He has delivered me from all ",
+              "sin"
+            ],
+            "chords": [
+              null,
+              "D",
+              "A"
+            ],
+            "line": 2,
+            "_id": "65eac3c233e943b7405ea200"
+          },
+          {
+            "lyricSection": [
+              "",
+              "And He has set my feet upon a ",
+              "rock"
+            ],
+            "chords": [
+              null,
+              "D",
+              "A"
+            ],
+            "line": 3,
+            "_id": "65eac3c233e943b7405ea201"
+          }
+        ],
+        "_id": "65eac3c233e943b7405ea1fd"
+      },
+      {
+        "section": "Pre-Chorus",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "And I will not be moved"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 0,
+            "_id": "65eac3c233e943b7405ea203"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "I'll say of the ",
+              "Lord"
+            ],
+            "chords": [
+              null,
+              "Bdim",
+              "E"
+            ],
+            "line": 1,
+            "_id": "65eac3c233e943b7405ea204"
+          }
+        ],
+        "_id": "65eac3c233e943b7405ea202"
+      },
+      {
+        "section": "Chorus",
+        "chords": [
+          {
+            "lyricSection": [
+              "You are ",
+              "my shield, my ",
+              "strength"
+            ],
+            "chords": [
+              null,
+              "A",
+              "Bdim"
+            ],
+            "line": 0,
+            "_id": "65eac3c233e943b7405ea206"
+          },
+          {
+            "lyricSection": [
+              "My ",
+              "portion, ",
+              "Deliverer"
+            ],
+            "chords": [
+              null,
+              "D",
+              "E"
+            ],
+            "line": 1,
+            "_id": "65eac3c233e943b7405ea207"
+          },
+          {
+            "lyricSection": [
+              "My ",
+              "shelter, strong ",
+              "tower"
+            ],
+            "chords": [
+              null,
+              "A",
+              "Bdim"
+            ],
+            "line": 2,
+            "_id": "65eac3c233e943b7405ea208"
+          },
+          {
+            "lyricSection": [
+              "My ",
+              "very present ",
+              "help in time of ",
+              "need"
+            ],
+            "chords": [
+              null,
+              "D",
+              "E",
+              "D"
+            ],
+            "line": 3,
+            "_id": "65eac3c233e943b7405ea209"
+          },
+          {
+            "lyricSection": [
+              "My ",
+              "very present ",
+              "help in time of ",
+              "need"
+            ],
+            "chords": [
+              null,
+              "D",
+              "E",
+              "D"
+            ],
+            "line": 3,
+            "_id": "65eac3c233e943b7405ea20a"
+          }
+        ],
+        "_id": "65eac3c233e943b7405ea205"
+      },
+      {
+        "section": "Verse 2",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "Whom have I in Heaven but ",
+              "You?"
+            ],
+            "chords": [
+              null,
+              "D",
+              "A"
+            ],
+            "line": 0,
+            "_id": "65eac3c233e943b7405ea20c"
+          },
+          {
+            "lyricSection": [
+              "",
+              "There's none I desire beside ",
+              "You"
+            ],
+            "chords": [
+              null,
+              "D",
+              "A"
+            ],
+            "line": 1,
+            "_id": "65eac3c233e943b7405ea20d"
+          }
+        ],
+        "_id": "65eac3c233e943b7405ea20b"
+      }
+    ],
+    "yearReleased": "June 30, 2002",
+    "__v": 0,
+    "baseKey": "A"
+  },
+  {
+    "_id": "65f5582eaa68e98c66d73b7b",
+    "songId": 1720181,
+    "title": "I Am Free (Who the Son Sets Free)",
+    "artist": "Newsboys",
+    "segments": [
+      {
+        "section": "Verse 1",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "Through You, the blind will see"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 0,
+            "_id": "65f5582eaa68e98c66d73b7d"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, the mute will sing"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 1,
+            "_id": "65f5582eaa68e98c66d73b7e"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, the dead will rise"
+            ],
+            "chords": [
+              null,
+              "G"
+            ],
+            "line": 2,
+            "_id": "65f5582eaa68e98c66d73b7f"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, all hearts will praise"
+            ],
+            "chords": [
+              null,
+              "G"
+            ],
+            "line": 3,
+            "_id": "65f5582eaa68e98c66d73b80"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, the darkness flees"
+            ],
+            "chords": [
+              null,
+              "Bm"
+            ],
+            "line": 4,
+            "_id": "65f5582eaa68e98c66d73b81"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, my heart screams"
+            ],
+            "chords": [
+              null,
+              "A"
+            ],
+            "line": 5,
+            "_id": "65f5582eaa68e98c66d73b82"
+          },
+          {
+            "lyricSection": [
+              "Yes, I am ",
+              "free"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 7,
+            "_id": "65f5582eaa68e98c66d73b83"
+          },
+          {
+            "lyricSection": [
+              "I am ",
+              "free"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 6,
+            "_id": "65f5582eaa68e98c66d73b84"
+          }
+        ],
+        "_id": "65f5582eaa68e98c66d73b7c"
+      },
+      {
+        "section": "Chorus",
+        "chords": [
+          {
+            "lyricSection": [
+              "And I am ",
+              "free to run (I am free to run)"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 0,
+            "_id": "65f5582eaa68e98c66d73b86"
+          },
+          {
+            "lyricSection": [
+              "I am ",
+              "free to dance (I am free to dance)"
+            ],
+            "chords": [
+              null,
+              "G"
+            ],
+            "line": 1,
+            "_id": "65f5582eaa68e98c66d73b87"
+          },
+          {
+            "lyricSection": [
+              "I am ",
+              "free to live for You (I am free to live for You)"
+            ],
+            "chords": [
+              null,
+              "Bm"
+            ],
+            "line": 2,
+            "_id": "65f5582eaa68e98c66d73b88"
+          },
+          {
+            "lyricSection": [
+              "I am ",
+              "free (I am free)"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 3,
+            "_id": "65f5582eaa68e98c66d73b89"
+          },
+          {
+            "lyricSection": [
+              "Yes, I am ",
+              "free (I am free)"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 4,
+            "_id": "65f5582eaa68e98c66d73b8a"
+          }
+        ],
+        "_id": "65f5582eaa68e98c66d73b85"
+      },
+      {
+        "section": "Verse 2",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "Through You, the kingdom comes"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 0,
+            "_id": "65f5582eaa68e98c66d73b8c"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, the battle's won"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 1,
+            "_id": "65f5582eaa68e98c66d73b8d"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, I'm not afraid"
+            ],
+            "chords": [
+              null,
+              "G"
+            ],
+            "line": 2,
+            "_id": "65f5582eaa68e98c66d73b8e"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, the price is paid"
+            ],
+            "chords": [
+              null,
+              "G"
+            ],
+            "line": 3,
+            "_id": "65f5582eaa68e98c66d73b8f"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Through You, there's victory"
+            ],
+            "chords": [
+              null,
+              "Bm"
+            ],
+            "line": 4,
+            "_id": "65f5582eaa68e98c66d73b90"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Because of You, my heart sings"
+            ],
+            "chords": [
+              null,
+              "A"
+            ],
+            "line": 5,
+            "_id": "65f5582eaa68e98c66d73b91"
+          },
+          {
+            "lyricSection": [
+              "I am ",
+              "free"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 6,
+            "_id": "65f5582eaa68e98c66d73b92"
+          },
+          {
+            "lyricSection": [
+              "Yes, I am ",
+              "free"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 7,
+            "_id": "65f5582eaa68e98c66d73b93"
+          }
+        ],
+        "_id": "65f5582eaa68e98c66d73b8b"
+      }
+    ],
+    "yearReleased": "September 12, 2006",
+    "baseKey": "d",
+    "__v": 0
+  },
+  {
+    "_id": "65f55720aa68e98c66d73af3",
+    "songId": 7184181,
+    "title": "I Speak Jesus",
+    "artist": "Charity Gayle (Ft. Steven Musso)",
+    "segments": [
+      {
+        "section": "Verse 1: Steven Musso",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "I just want to speak the name of Jesus"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 0,
+            "_id": "65f55720aa68e98c66d73af5"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Over every heart and every mind"
+            ],
+            "chords": [
+              null,
+              "C#m"
+            ],
+            "line": 1,
+            "_id": "65f55720aa68e98c66d73af6"
+          },
+          {
+            "lyricSection": [
+              "'Cause I ",
+              "know there is peace within Your presence"
+            ],
+            "chords": [
+              null,
+              "A"
+            ],
+            "line": 2,
+            "_id": "65f55720aa68e98c66d73af7"
+          },
+          {
+            "lyricSection": [
+              "I speak ",
+              "Jesus"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 3,
+            "_id": "65f55720aa68e98c66d73af8"
+          }
+        ],
+        "_id": "65f55720aa68e98c66d73af4"
+      },
+      {
+        "section": "Verse 2: Charity Gayle",
+        "chords": [
+          {
+            "lyricSection": [
+              "",
+              "I just want to speak the name of Jesus"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 0,
+            "_id": "65f55720aa68e98c66d73afa"
+          },
+          {
+            "lyricSection": [
+              "'Til ",
+              "every dark addiction starts to break"
+            ],
+            "chords": [
+              null,
+              "C#m"
+            ],
+            "line": 1,
+            "_id": "65f55720aa68e98c66d73afb"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Declaring there is hope and there is freedom"
+            ],
+            "chords": [
+              null,
+              "A"
+            ],
+            "line": 2,
+            "_id": "65f55720aa68e98c66d73afc"
+          },
+          {
+            "lyricSection": [
+              "I speak ",
+              "Jesus"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 3,
+            "_id": "65f55720aa68e98c66d73afd"
+          }
+        ],
+        "_id": "65f55720aa68e98c66d73af9"
+      },
+      {
+        "section": "Chorus: Charity Gayle & Steven Musso",
+        "chords": [
+          {
+            "lyricSection": [
+              "Your name is ",
+              "power"
+            ],
+            "chords": [
+              null,
+              "B"
+            ],
+            "line": 0,
+            "_id": "65f55720aa68e98c66d73aff"
+          },
+          {
+            "lyricSection": [
+              "Your ",
+              "name is ",
+              "healing"
+            ],
+            "chords": [
+              null,
+              "E",
+              "A"
+            ],
+            "line": 1,
+            "_id": "65f55720aa68e98c66d73b00"
+          },
+          {
+            "lyricSection": [
+              "Your name ",
+              "is life"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 2,
+            "_id": "65f55720aa68e98c66d73b01"
+          },
+          {
+            "lyricSection": [
+              "Break every ",
+              "stronghold"
+            ],
+            "chords": [
+              null,
+              "B"
+            ],
+            "line": 3,
+            "_id": "65f55720aa68e98c66d73b02"
+          },
+          {
+            "lyricSection": [
+              "Shine ",
+              "through the ",
+              "shadows"
+            ],
+            "chords": [
+              null,
+              "E",
+              "A"
+            ],
+            "line": 4,
+            "_id": "65f55720aa68e98c66d73b03"
+          },
+          {
+            "lyricSection": [
+              "Burn like ",
+              "a fire"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 5,
+            "_id": "65f55720aa68e98c66d73b04"
+          }
+        ],
+        "_id": "65f55720aa68e98c66d73afe"
+      },
+      {
+        "section": "Bridge: Charity Gayle, Charity Gayle & Steven Musso",
+        "chords": [
+          {
+            "lyricSection": [
+              "Shout ",
+              "Jesus from the mountains, Jesus in the streets"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 0,
+            "_id": "65f55720aa68e98c66d73b06"
+          },
+          {
+            "lyricSection": [
+              "",
+              "Jesus in the darkness over every enemy"
+            ],
+            "chords": [
+              null,
+              "C#m"
+            ],
+            "line": 1,
+            "_id": "65f55720aa68e98c66d73b07"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "Jesus for my family"
+            ],
+            "chords": [
+              null,
+              "A"
+            ],
+            "line": 2,
+            "_id": "65f55720aa68e98c66d73b08"
+          },
+          {
+            "lyricSection": [
+              "I speak the holy name, ",
+              "Jesus"
+            ],
+            "chords": [
+              null,
+              "E"
+            ],
+            "line": 3,
+            "_id": "65f55720aa68e98c66d73b09"
+          }
+        ],
+        "_id": "65f55720aa68e98c66d73b05"
+      }
+    ],
+    "yearReleased": "September 10, 2021",
+    "baseKey": "e",
+    "__v": 0
+  },
+  {
+    "_id": "65efc07768936da5b46cff6b",
+    "songId": 3295555,
+    "title": "Build My Life (2)",
+    "artist": "Housefires",
+    "segments": [
+      {
+        "section": "Verse 1",
+        "chords": [
+          {
+            "lyricSection": [
+              "Worthy of every ",
+              "song we could ever sing"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 0,
+            "_id": "65e7fe6ea9d2e48630126356"
+          },
+          {
+            "lyricSection": [
+              "Worthy of all the ",
+              "praise we could ever bring"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 1,
+            "_id": "65e7fe6ea9d2e48630126357"
+          },
+          {
+            "lyricSection": [
+              "Worthy of every ",
+              "breath we could ever breathe"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 2,
+            "_id": "65e7fe6ea9d2e48630126358"
+          },
+          {
+            "lyricSection": [
+              "We live for ",
+              "You "
+            ],
+            "chords": [
+              null,
+              "D",
+              "G"
+            ],
+            "line": 3,
+            "_id": "65e7fe6ea9d2e48630126359"
+          }
+        ],
+        "_id": "65e7fe6ea9d2e48630126355"
+      },
+      {
+        "section": "Verse 2",
+        "chords": [
+          {
+            "lyricSection": [
+              "Jesus, the Name ",
+              "above every other name"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 0,
+            "_id": "65e7fe6ea9d2e4863012635b"
+          },
+          {
+            "lyricSection": [
+              "Jesus, the only One ",
+              "who could ever save"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 1,
+            "_id": "65e7fe6ea9d2e4863012635c"
+          },
+          {
+            "lyricSection": [
+              "Worthy of every ",
+              "breath we could ever breathe"
+            ],
+            "chords": [
+              "D",
+              "G"
+            ],
+            "line": 2,
+            "_id": "65e7fe6ea9d2e4863012635d"
+          },
+          {
+            "lyricSection": [
+              "We live for ",
+              "You "
+            ],
+            "chords": [
+              null,
+              "D",
+              "G"
+            ],
+            "line": 3,
+            "_id": "65e7fe6ea9d2e4863012635e"
+          }
+        ],
+        "_id": "65e7fe6ea9d2e4863012635a"
+      },
+      {
+        "section": "Chorus",
+        "chords": [
+          {
+            "lyricSection": [
+              "Holy, there is ",
+              "no one like You"
+            ],
+            "chords": [
+              "G",
+              "Em"
+            ],
+            "line": 1,
+            "_id": "65e7fe6ea9d2e48630126360"
+          },
+          {
+            "lyricSection": [
+              "There is none ",
+              "beside You"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 2,
+            "_id": "65e7fe6ea9d2e48630126361"
+          },
+          {
+            "lyricSection": [
+              "There is none ",
+              "beside You"
+            ],
+            "chords": [
+              null,
+              "D"
+            ],
+            "line": 2,
+            "_id": "65e7fe6ea9d2e48630126362"
+          },
+          {
+            "lyricSection": [
+              "Open up my ",
+              "eyes in wonder"
+            ],
+            "chords": [
+              null,
+              "Bm"
+            ],
+            "line": 3,
+            "_id": "65e7fe6ea9d2e48630126363"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "show me who You are"
+            ],
+            "chords": [
+              null,
+              "G"
+            ],
+            "line": 4,
+            "_id": "65e7fe6ea9d2e48630126364"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "fill me with Your heart"
+            ],
+            "chords": [
+              null,
+              "Em"
+            ],
+            "line": 5,
+            "_id": "65e7fe6ea9d2e48630126365"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "lead me in Your love to ",
+              "those around me"
+            ],
+            "chords": [
+              null,
+              "D",
+              "Bm"
+            ],
+            "line": 6,
+            "_id": "65e7fe6ea9d2e48630126366"
+          }
+        ],
+        "_id": "65e7fe6ea9d2e4863012635f"
+      },
+      {
+        "section": "Bridge",
+        "chords": [
+          {
+            "lyricSection": [
+              "And I will build ",
+              "my life upon Your ",
+              "love"
+            ],
+            "chords": [
+              "G",
+              "A",
+              "Bm"
+            ],
+            "line": 0,
+            "_id": "65e7fe6ea9d2e48630126368"
+          },
+          {
+            "lyricSection": [
+              "It is a ",
+              "firm foundation"
+            ],
+            "chords": [
+              null,
+              "Em"
+            ],
+            "line": 1,
+            "_id": "65e7fe6ea9d2e48630126369"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "I will put my ",
+              "trust in You ",
+              "alone"
+            ],
+            "chords": [
+              null,
+              "G",
+              "A",
+              "Bm"
+            ],
+            "line": 2,
+            "_id": "65e7fe6ea9d2e4863012636a"
+          },
+          {
+            "lyricSection": [
+              "And I will ",
+              "not be shaken"
+            ],
+            "chords": [
+              null,
+              "F#m"
+            ],
+            "line": 3,
+            "_id": "65e7fe6ea9d2e4863012636b"
+          },
+          {
+            "lyricSection": [
+              "",
+              "I will build my ",
+              "life upon Your ",
+              "love"
+            ],
+            "chords": [
+              null,
+              "G",
+              "A",
+              "Bm"
+            ],
+            "line": 4,
+            "_id": "65e7fe6ea9d2e4863012636c"
+          },
+          {
+            "lyricSection": [
+              "It is a ",
+              "firm foundation"
+            ],
+            "chords": [
+              null,
+              "F#m"
+            ],
+            "line": 5,
+            "_id": "65e7fe6ea9d2e4863012636d"
+          },
+          {
+            "lyricSection": [
+              "And ",
+              "I will put my ",
+              "trust in You ",
+              "alone"
+            ],
+            "chords": [
+              null,
+              "G",
+              "A",
+              "Bm"
+            ],
+            "line": 6,
+            "_id": "65e7fe6ea9d2e4863012636e"
+          },
+          {
+            "lyricSection": [
+              "And I will ",
+              "not be shaken"
+            ],
+            "chords": [
+              null,
+              "F#m"
+            ],
+            "line": 7,
+            "_id": "65e7fe6ea9d2e4863012636f"
+          }
+        ],
+        "_id": "65e7fe6ea9d2e48630126367"
+      }
+    ],
+    "yearReleased": "August 12, 2016",
+    "__v": 0,
+    "baseKey": "D"
+  }
+]
