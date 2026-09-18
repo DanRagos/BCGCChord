@@ -25,12 +25,12 @@ export default function LibraryPage() {
     <div>
       <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
         <h1 className="text-2xl font-bold">Song Library</h1>
-        <div className="flex items-center gap-3 flex-1 max-w-xl justify-end">
+        <div className="flex items-center gap-3 flex-wrap w-full sm:w-auto sm:flex-1 sm:max-w-xl sm:justify-end">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search title or artist..."
-            className="border rounded px-3 py-2 flex-1 max-w-xs"
+            className="border rounded px-3 py-2 flex-1 min-w-[10rem] sm:max-w-xs"
             style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}
           />
           <Link

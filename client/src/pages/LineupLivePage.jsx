@@ -87,46 +87,60 @@ export default function LineupLivePage() {
   if (!lineup) return null;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
-      <aside className="lg:w-64 shrink-0">
-        <div className="flex items-center justify-between mb-2">
-          <div>
-            <div className="font-semibold">{formatDate(lineup.lineupDate)}</div>
-            <div className="text-xs opacity-50">Live · follows whoever scrolls</div>
+    // Escapes AppShell's centered/padded <main> on purpose: a live view wants
+    // the whole screen, with only the lyrics scrolling — not the page. Fixed
+    // (not absolute) so it tracks the viewport even as mobile browser chrome
+    // shows/hides; `top-14` matches AppShell's header height exactly.
+    <div className="fixed inset-x-0 bottom-0 top-14 flex flex-col lg:flex-row overflow-hidden">
+      <aside
+        className="shrink-0 border-b lg:border-b-0 lg:border-r lg:w-64 lg:h-full lg:overflow-y-auto"
+        style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}
+      >
+        <div className="p-3">
+          <div className="flex items-center justify-between mb-2 gap-2">
+            <div className="min-w-0">
+              <div className="font-semibold truncate">{formatDate(lineup.lineupDate)}</div>
+              <div className="text-xs opacity-50">Live · follows whoever scrolls</div>
+            </div>
+            <Link to={`/lineups/${id}/edit`} className="text-xs underline shrink-0">Edit</Link>
           </div>
-          <Link to={`/lineups/${id}/edit`} className="text-xs underline shrink-0">Edit</Link>
-        </div>
-        <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
-          {validEntries.map((entry) => {
-            const isActive = entry.song._id === currentSongId;
-            return (
-              <button
-                key={entry.song._id}
-                onClick={() => jumpTo(entry.song._id, 0)}
-                className="text-left rounded-lg border px-3 py-2 shrink-0 min-w-[10rem] lg:min-w-0"
-                style={{
-                  borderColor: 'var(--color-border)',
-                  backgroundColor: isActive ? 'var(--color-accent)' : 'var(--color-surface)',
-                  color: isActive ? 'white' : 'var(--color-text)',
-                }}
-              >
-                <div className="text-xs uppercase tracking-wide opacity-70">{SONG_TYPE_LABELS[entry.songType] || 'Song'}</div>
-                <div className="font-medium text-sm">{entry.song.title}</div>
-                {entry.keyUsed && <div className="text-xs opacity-70">Key: {entry.keyUsed}</div>}
-              </button>
-            );
-          })}
-          {validEntries.length === 0 && <p className="text-sm opacity-50">No songs in this lineup yet.</p>}
+          <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0">
+            {validEntries.map((entry) => {
+              const isActive = entry.song._id === currentSongId;
+              return (
+                <button
+                  key={entry.song._id}
+                  onClick={() => jumpTo(entry.song._id, 0)}
+                  className="text-left rounded-lg border px-3 py-2 shrink-0 min-w-[9rem] lg:min-w-0 lg:w-full"
+                  style={{
+                    borderColor: 'var(--color-border)',
+                    backgroundColor: isActive ? 'var(--color-accent)' : 'var(--color-bg)',
+                    color: isActive ? 'white' : 'var(--color-text)',
+                  }}
+                >
+                  <div className="text-xs uppercase tracking-wide opacity-70">{SONG_TYPE_LABELS[entry.songType] || 'Song'}</div>
+                  <div className="font-medium text-sm">{entry.song.title}</div>
+                  {entry.keyUsed && <div className="text-xs opacity-70">Key: {entry.keyUsed}</div>}
+                </button>
+              );
+            })}
+            {validEntries.length === 0 && <p className="text-sm opacity-50">No songs in this lineup yet.</p>}
+          </div>
         </div>
       </aside>
 
-      <main className="flex-1 min-w-0">
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden">
         {currentSong ? (
           <>
-            <div className="mb-4 flex items-start justify-between gap-3">
-              <div>
-                <h1 className="text-2xl font-bold">{currentSong.title}</h1>
-                <p className="opacity-70 text-sm">
+            {/* Controls: shrink-0 so they never get pushed around by content
+                below — only the section list underneath scrolls. */}
+            <div
+              className="shrink-0 border-b px-3 sm:px-4 py-3 flex flex-wrap items-start justify-between gap-3"
+              style={{ borderColor: 'var(--color-border)' }}
+            >
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-2xl font-bold truncate">{currentSong.title}</h1>
+                <p className="opacity-70 text-xs sm:text-sm truncate">
                   {currentSong.artist}
                   {currentEntry.keyUsed && ` · Key: ${currentEntry.keyUsed}`}
                   {currentSong.capo > 0 && ` · Capo: ${currentSong.capo}`}
@@ -136,44 +150,47 @@ export default function LineupLivePage() {
                 <button
                   onClick={() => currentSectionIndex > 0 && jumpTo(currentSongId, currentSectionIndex - 1)}
                   disabled={currentSectionIndex === 0}
-                  className="px-2 py-1 rounded border disabled:opacity-30"
+                  className="px-3 py-1.5 rounded border disabled:opacity-30"
                   style={{ borderColor: 'var(--color-border)' }}
                 >
-                  ↑ Prev section
+                  ↑ <span className="hidden sm:inline">Prev section</span>
                 </button>
                 <button
                   onClick={() => currentSectionIndex < sections.length - 1 && jumpTo(currentSongId, currentSectionIndex + 1)}
                   disabled={currentSectionIndex >= sections.length - 1}
-                  className="px-2 py-1 rounded border disabled:opacity-30"
+                  className="px-3 py-1.5 rounded border disabled:opacity-30"
                   style={{ borderColor: 'var(--color-border)' }}
                 >
-                  ↓ Next section
+                  ↓ <span className="hidden sm:inline">Next section</span>
                 </button>
               </div>
             </div>
 
-            {sections.map((section, sIdx) => (
-              <section
-                key={section._id || sIdx}
-                ref={(el) => (sectionRefs.current[sIdx] = el)}
-                onClick={() => jumpTo(currentSongId, sIdx)}
-                className={`mb-6 rounded-lg p-3 -mx-3 cursor-pointer transition-colors ${
-                  sIdx === currentSectionIndex ? 'ring-2' : 'hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
-                style={{ '--tw-ring-color': 'var(--color-accent)' }}
-              >
-                <h2 className="text-sm uppercase tracking-wide font-bold opacity-60 mb-1">
-                  {section.label || section.type}
-                </h2>
-                {section.lines.map((line, lIdx) => (
-                  <ChordLyricLine key={line._id || lIdx} line={line} />
-                ))}
-              </section>
-            ))}
-            {sections.length === 0 && <p className="opacity-70">This song has no sections yet.</p>}
+            {/* The only scrollable region on this page. */}
+            <div className="flex-1 min-h-0 overflow-y-auto px-3 sm:px-4 py-4">
+              {sections.map((section, sIdx) => (
+                <section
+                  key={section._id || sIdx}
+                  ref={(el) => (sectionRefs.current[sIdx] = el)}
+                  onClick={() => jumpTo(currentSongId, sIdx)}
+                  className={`mb-6 rounded-lg p-3 -mx-3 cursor-pointer transition-colors ${
+                    sIdx === currentSectionIndex ? 'ring-2' : 'hover:bg-black/5 dark:hover:bg-white/5'
+                  }`}
+                  style={{ '--tw-ring-color': 'var(--color-accent)' }}
+                >
+                  <h2 className="text-sm uppercase tracking-wide font-bold opacity-60 mb-1">
+                    {section.label || section.type}
+                  </h2>
+                  {section.lines.map((line, lIdx) => (
+                    <ChordLyricLine key={line._id || lIdx} line={line} />
+                  ))}
+                </section>
+              ))}
+              {sections.length === 0 && <p className="opacity-70">This song has no sections yet.</p>}
+            </div>
           </>
         ) : (
-          <p className="opacity-70">Add songs to this lineup to start a live view.</p>
+          <p className="opacity-70 p-4">Add songs to this lineup to start a live view.</p>
         )}
       </main>
     </div>
