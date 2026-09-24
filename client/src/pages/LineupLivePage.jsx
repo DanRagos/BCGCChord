@@ -10,6 +10,8 @@ const SONG_TYPE_LABELS = {
   offering: 'Offering', communion: 'Communion', closing: 'Closing',
 };
 
+const KEYS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
 function formatDate(d) {
   if (!d) return '';
   return new Date(d).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
@@ -24,6 +26,14 @@ export default function LineupLivePage() {
   const [currentSongId, setCurrentSongId] = useState(null);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const sectionRefs = useRef([]);
+
+  // Live-view-only transpose: lets whoever's running the live view bump a
+  // song up/down on the fly without touching anything persisted — not the
+  // Song document's own key, and not this lineup's saved keyUsed for that
+  // entry (Edit still shows whatever key was actually planned for the
+  // service). Purely in-memory, keyed by songId, so it quietly resets the
+  // moment this page reloads.
+  const [liveKeyOverrides, setLiveKeyOverrides] = useState({});
 
   // Default to the first song once the lineup loads.
   useEffect(() => {
@@ -55,10 +65,23 @@ export default function LineupLivePage() {
   };
 
   const currentEntry = validEntries.find((e) => e.song._id === currentSongId);
-  const currentSong = currentEntry
-    ? transposeSongForDisplay(currentEntry.song, currentEntry.keyUsed || currentEntry.song.originalKey)
-    : null;
+  const baseKey = currentEntry ? currentEntry.keyUsed || currentEntry.song.originalKey : null;
+  const displayKey = (currentSongId && liveKeyOverrides[currentSongId]) || baseKey;
+  const currentSong = currentEntry ? transposeSongForDisplay(currentEntry.song, displayKey) : null;
   const sections = currentSong?.sections || [];
+
+  const setLiveKey = (key) => {
+    if (!currentSongId) return;
+    setLiveKeyOverrides((cur) => ({ ...cur, [currentSongId]: key }));
+  };
+  const resetLiveKey = () => {
+    if (!currentSongId) return;
+    setLiveKeyOverrides((cur) => {
+      const next = { ...cur };
+      delete next[currentSongId];
+      return next;
+    });
+  };
 
   useEffect(() => {
     sectionRefs.current[currentSectionIndex]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -146,7 +169,27 @@ export default function LineupLivePage() {
                   {currentSong.capo > 0 && ` · Capo: ${currentSong.capo}`}
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-xs shrink-0">
+              <div className="flex items-center gap-2 text-xs shrink-0 flex-wrap justify-end">
+                <label className="flex items-center gap-1">
+                  Key:
+                  <select
+                    value={displayKey || ''}
+                    disabled={!currentSong.originalKey}
+                    onChange={(e) => setLiveKey(e.target.value)}
+                    className="border rounded px-1 py-1"
+                    style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}
+                  >
+                    {!currentSong.originalKey && <option value="">—</option>}
+                    {KEYS.map((k) => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </label>
+                {displayKey && baseKey && displayKey !== baseKey && (
+                  <button onClick={resetLiveKey} className="underline" title={`Back to ${baseKey}`}>
+                    Reset
+                  </button>
+                )}
                 <button
                   onClick={() => currentSectionIndex > 0 && jumpTo(currentSongId, currentSectionIndex - 1)}
                   disabled={currentSectionIndex === 0}

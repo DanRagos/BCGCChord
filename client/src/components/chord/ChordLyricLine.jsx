@@ -7,14 +7,24 @@
 // Layout helpers live in utils/chordLayout.js and are shared with
 // EditableChordLyricLine so the viewer and the editor never disagree on
 // where a chord sits.
-import { syllableDisplayText, groupIntoChunks, charOffsetToLeftPct, anchorsByIndexMap } from '../../utils/chordLayout.js';
+import {
+  syllableDisplayText,
+  groupIntoChunks,
+  charOffsetToLeftPct,
+  anchorsByIndexMap,
+  emptyCellMinWidthCh,
+} from '../../utils/chordLayout.js';
 
 function SyllableCell({ syl, index, anchorsByIndex }) {
   const anchors = (anchorsByIndex.get(index) || []).slice().sort((a, b) => a.charOffset - b.charOffset);
   const isChordSlot = syl.type === 'chordSlot';
+  const minWidth = emptyCellMinWidthCh(syl, anchors);
 
   return (
-    <span className={`relative inline-block ${isChordSlot ? 'min-w-[0.6ch]' : ''}`}>
+    <span
+      className={`relative inline-block ${isChordSlot ? 'min-w-[0.6ch]' : ''}`}
+      style={minWidth ? { minWidth } : undefined}
+    >
       {anchors.map((a) => (
         <span
           key={a._id || `${index}-${a.chord}-${a.charOffset}`}

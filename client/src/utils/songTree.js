@@ -172,14 +172,27 @@ export function retextLine(song, sectionKey, lineKey, text) {
 
 // Appends a zero-width chordSlot syllable to the end of a line, giving a
 // place to anchor a chord with no lyric under it (e.g. an instrumental hit
-// after the last word).
+// after the last word, or an all-chord "Intro: E  C#m  Am7" line built by
+// clicking this repeatedly with nothing typed at all).
 export function appendChordSlot(song, sectionKey, lineKey) {
   const next = deepClone(song);
   const sIdx = findSection(next, sectionKey);
   if (sIdx === -1) return song;
   const lIdx = findLine(next.sections[sIdx], lineKey);
   if (lIdx === -1) return song;
-  next.sections[sIdx].lines[lIdx].syllables.push({
+  const syllables = next.sections[sIdx].lines[lIdx].syllables;
+  // A chordSlot carries no lyric text, so it has nothing to give it width on
+  // its own. Appending one straight after another chordSlot (the all-chord
+  // "Intro" case, with no lyrics anywhere on the line) used to leave the two
+  // chord labels with no separating cell at all, so they rendered right on
+  // top of each other. Insert a real space first, same as if the chords had
+  // been typed with a space between them — matches how a line with actual
+  // lyrics naturally gets breathing room between words.
+  const last = syllables[syllables.length - 1];
+  if (last && last.type !== 'space') {
+    syllables.push({ text: ' ', wordId: null, isWordStart: false, isWordEnd: false, type: 'space' });
+  }
+  syllables.push({
     text: '',
     wordId: null,
     isWordStart: false,

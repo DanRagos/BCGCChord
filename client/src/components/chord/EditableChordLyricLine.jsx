@@ -4,6 +4,7 @@ import {
   groupIntoChunks,
   charOffsetToLeftPct,
   anchorsByIndexMap,
+  emptyCellMinWidthCh,
 } from '../../utils/chordLayout.js';
 
 // Given a click/drag-over clientX relative to a syllable cell's bounding
@@ -40,12 +41,14 @@ function SyllableCell({
 }) {
   const anchors = (anchorsByIndex.get(index) || []).slice().sort((a, b) => a.charOffset - b.charOffset);
   const isChordSlot = syl.type === 'chordSlot';
+  const minWidth = emptyCellMinWidthCh(syl, anchors);
 
   return (
     <span
       className={`relative inline-block cursor-pointer rounded transition-colors ${
         isChordSlot ? 'min-w-[1.4ch]' : ''
       } ${isDragOver ? 'bg-black/10 dark:bg-white/10' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}
+      style={minWidth ? { minWidth } : undefined}
       onClick={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const charOffset = resolveCharOffset(e.clientX, rect, syl.text ? syl.text.length : 0);

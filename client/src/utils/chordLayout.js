@@ -37,6 +37,22 @@ export function groupIntoChunks(syllables) {
   return chunks;
 }
 
+// A syllable with no lyric under it (a chordSlot, or any empty-text
+// syllable) has nothing to give its cell width. On a normal lyric line
+// that's fine — a following word/space cell provides the room. But on a
+// chord-only line (e.g. an instrumental "Intro: E  C#m  Am7" typed via
+// repeated "append chord slot" clicks, with nothing typed under any of it)
+// two neighboring cells can both end up ~0-width, and their absolutely
+// positioned chord labels land right on top of each other. Size the cell to
+// whichever anchored chord is longest so that never happens, regardless of
+// how much (or how little) separating whitespace the underlying data has.
+export function emptyCellMinWidthCh(syl, anchors) {
+  if (syl.text) return null; // has real lyric text — let it size itself normally
+  const maxChordLen = (anchors || []).reduce((max, a) => Math.max(max, (a.chord || '').length), 0);
+  if (maxChordLen === 0) return null;
+  return `${maxChordLen + 1}ch`;
+}
+
 // charOffset -> a left% within the syllable cell, clamped the same way in
 // both the viewer and the editor so a chord looks like it's in the same
 // spot whichever mode you're looking at it in.
