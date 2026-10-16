@@ -14,27 +14,35 @@ import {
   anchorsByIndexMap,
   emptyCellMinWidthCh,
 } from '../../utils/chordLayout.js';
+import { useChordLabelLayout } from '../../hooks/useChordLabelLayout.js';
 
 function SyllableCell({ syl, index, anchorsByIndex }) {
   const anchors = (anchorsByIndex.get(index) || []).slice().sort((a, b) => a.charOffset - b.charOffset);
   const isChordSlot = syl.type === 'chordSlot';
-  const minWidth = emptyCellMinWidthCh(syl, anchors);
+  const { textRef, labelRefs, layout } = useChordLabelLayout(anchors, syl.text);
+  const minWidth = layout ? `${layout.minWidth}px` : emptyCellMinWidthCh(syl, anchors);
 
   return (
     <span
       className={`relative inline-block ${isChordSlot ? 'min-w-[0.6ch]' : ''}`}
       style={minWidth ? { minWidth } : undefined}
     >
-      {anchors.map((a) => (
+      {anchors.map((a, i) => (
         <span
           key={a._id || `${index}-${a.chord}-${a.charOffset}`}
+          ref={(el) => {
+            labelRefs.current[i] = el;
+          }}
           className="absolute -top-[1.15em] text-sm font-bold whitespace-nowrap select-none"
-          style={{ left: `${charOffsetToLeftPct(a.charOffset, syl.text)}%`, color: 'var(--color-chord)' }}
+          style={{
+            left: layout ? `${layout.lefts[i]}px` : `${charOffsetToLeftPct(a.charOffset, syl.text)}%`,
+            color: 'var(--color-chord)',
+          }}
         >
           {a.chord}
         </span>
       ))}
-      <span>{syllableDisplayText(syl)}</span>
+      <span ref={textRef}>{syllableDisplayText(syl)}</span>
     </span>
   );
 }

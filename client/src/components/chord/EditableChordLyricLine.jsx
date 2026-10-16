@@ -6,6 +6,7 @@ import {
   anchorsByIndexMap,
   emptyCellMinWidthCh,
 } from '../../utils/chordLayout.js';
+import { useChordLabelLayout } from '../../hooks/useChordLabelLayout.js';
 
 // Given a click/drag-over clientX relative to a syllable cell's bounding
 // box, decide which "half" was targeted. Left half -> charOffset 0 (chord
@@ -41,7 +42,8 @@ function SyllableCell({
 }) {
   const anchors = (anchorsByIndex.get(index) || []).slice().sort((a, b) => a.charOffset - b.charOffset);
   const isChordSlot = syl.type === 'chordSlot';
-  const minWidth = emptyCellMinWidthCh(syl, anchors);
+  const { textRef, labelRefs, layout } = useChordLabelLayout(anchors, syl.text);
+  const minWidth = layout ? `${layout.minWidth}px` : emptyCellMinWidthCh(syl, anchors);
 
   return (
     <span
@@ -68,9 +70,12 @@ function SyllableCell({
         onDragLeaveCell(index);
       }}
     >
-      {anchors.map((a) => (
+      {anchors.map((a, i) => (
         <span
           key={a._k}
+          ref={(el) => {
+            labelRefs.current[i] = el;
+          }}
           draggable
           onDragStart={(e) => {
             e.stopPropagation();
@@ -86,13 +91,16 @@ function SyllableCell({
             onCellClick({ index, charOffset: a.charOffset, existing: a, position: { x: e.clientX, y: rect.top } });
           }}
           className="absolute -top-[1.3em] text-sm font-bold whitespace-nowrap select-none cursor-grab active:cursor-grabbing px-0.5 rounded"
-          style={{ left: `${charOffsetToLeftPct(a.charOffset, syl.text)}%`, color: 'var(--color-chord)' }}
+          style={{
+            left: layout ? `${layout.lefts[i]}px` : `${charOffsetToLeftPct(a.charOffset, syl.text)}%`,
+            color: 'var(--color-chord)',
+          }}
           title="Click to edit, drag to move"
         >
           {a.chord}
         </span>
       ))}
-      <span>{syllableDisplayText(syl)}</span>
+      <span ref={textRef}>{syllableDisplayText(syl)}</span>
     </span>
   );
 }
