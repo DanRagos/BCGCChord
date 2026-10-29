@@ -2,6 +2,7 @@ const {
   parsePastedChordSheet,
   buildLineFromItems,
   normalizeSectionType,
+  parseChordsOverWordsText,
 } = require('../../server/services/chordParserService');
 
 describe('normalizeSectionType', () => {
@@ -10,6 +11,13 @@ describe('normalizeSectionType', () => {
     expect(normalizeSectionType('pre-chorus')).toBe('prechorus');
     expect(normalizeSectionType('Post-Chorus')).toBe('postchorus');
     expect(normalizeSectionType('Tab')).toBe('instrumental');
+  });
+
+  test('ignores a trailing number or repeat marker ("Chorus 3", "Verse 1", "Outro x2")', () => {
+    expect(normalizeSectionType('Chorus 3')).toBe('chorus');
+    expect(normalizeSectionType('Verse 1')).toBe('verse');
+    expect(normalizeSectionType('Outro x2')).toBe('outro');
+    expect(normalizeSectionType('Bridge (2x)')).toBe('bridge');
   });
 
   test('falls back to "custom" for an unrecognized name', () => {
@@ -108,5 +116,71 @@ describe('parsePastedChordSheet', () => {
     const allLines = sections.flatMap((s) => s.lines);
     expect(allLines.length).toBeGreaterThan(0);
     expect(allLines.every((l) => l.chordAnchors.length === 0)).toBe(true);
+  });
+});
+
+// Regression tests for real songs that imported with chords and lyrics
+// swapped / chord lines printed as lyrics. Root causes: ChordSheetJS treats
+// ordinary words starting with A-G ("Again", "and") as chords, can't parse
+// "N.C." at all, and pairs two consecutive chord lines as chord+"lyrics".
+describe('parsePastedChordSheet — chord line vs lyric line detection', () => {
+  const plain = (line) => line.syllables.map((s) => (s.type === 'chordSlot' ? '' : s.text)).join('');
+  const chordsOf = (line) => line.chordAnchors.map((a) => a.chord);
+
+  test('a chord line containing N.C. is still a chord line, laid over the lyric below it', () => {
+    const { sections } = parsePastedChordSheet(
+      ['[Chorus 3]', 'N.C. D/F# G', 'Again and again and again and again'].join('\n')
+    );
+    const lines = sections.flatMap((s) => s.lines);
+    expect(lines).toHaveLength(1);
+    expect(plain(lines[0])).toBe('Again and again and again and again');
+    expect(chordsOf(lines[0])).toEqual(['N.C.', 'D/F#', 'G']);
+  });
+
+  test('a lyric line made of words starting with A-G is NOT mistaken for a chord line', () => {
+    const { sections } = parsePastedChordSheet(
+      ['C       G', 'Again and again and again', 'Am', 'You rescued me'].join('\n')
+    );
+    const lines = sections.flatMap((s) => s.lines);
+    expect(lines).toHaveLength(2);
+    expect(plain(lines[0])).toBe('Again and again and again');
+    expect(chordsOf(lines[0])).toEqual(['C', 'G']);
+    expect(plain(lines[1])).toBe('You rescued me');
+    expect(chordsOf(lines[1])).toEqual(['Am']);
+  });
+
+  test('two chord lines in a row stay two chord-only lines (the second is not printed as lyrics)', () => {
+    const { sections } = parsePastedChordSheet(['[Outro]', 'C   G D A', 'D#m B E'].join('\n'));
+    const lines = sections.flatMap((s) => s.lines);
+    expect(lines).toHaveLength(2);
+    expect(lines.every((l) => l.syllables.every((s) => s.type === 'chordSlot'))).toBe(true);
+    expect(chordsOf(lines[0])).toEqual(['C', 'G', 'D', 'A']);
+    expect(chordsOf(lines[1])).toEqual(['D#m', 'B', 'E']);
+  });
+
+  test('plain minor / suffixed chords are recognized as chord lines', () => {
+    const { sections } = parsePastedChordSheet(['Am7   F#m   CM7   Bm', 'Hello there my friend'].join('\n'));
+    const lines = sections.flatMap((s) => s.lines);
+    expect(lines).toHaveLength(1);
+    expect(chordsOf(lines[0])).toEqual(['Am7', 'F#m', 'CM7', 'Bm']);
+  });
+
+  test('section tags keep their own number instead of getting another appended', () => {
+    const { sections } = parsePastedChordSheet(['[Chorus 3]', 'Hello there', '', '[Outro]', 'Goodbye now'].join('\n'));
+    expect(sections.map((s) => s.label)).toEqual(['Chorus 3', 'Outro 1']);
+    expect(sections.map((s) => s.type)).toEqual(['chorus', 'outro']);
+  });
+
+  test('text with inline [C] chord markup still goes through ChordSheetJS', () => {
+    const { sections } = parsePastedChordSheet('[C]Amazing [G]grace');
+    const lines = sections.flatMap((s) => s.lines);
+    expect(lines.length).toBeGreaterThan(0);
+    expect(lines.some((l) => l.chordAnchors.length > 0)).toBe(true);
+  });
+
+  test('parseChordsOverWordsText skips blank lines and emits section tags as comment items', () => {
+    const { lines } = parseChordsOverWordsText('[Verse]\n\nG\nHello');
+    expect(lines[0].items[0]).toMatchObject({ _originalName: 'comment', _value: 'Verse' });
+    expect(lines).toHaveLength(2);
   });
 });

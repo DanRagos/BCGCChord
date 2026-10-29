@@ -4,21 +4,23 @@
 // source of truth for what's actually parseable/transposable; anything this
 // regex rejects is still saved as typed (e.g. unusual/typo'd chords, or
 // annotations someone deliberately wants to keep).
-const NO_CHORD = /^(N\.?C\.?|NC)$/i;
+//
+// Keep in sync with the server copy. A chord is a root note (A-G, optional
+// #/b), then zero or more pieces from a closed vocabulary of chord-quality
+// words/symbols, then an optional /bass note — so Am, F#m, CM7, Dsus4, G/B
+// and Bbmaj7 pass (the old version rejected every plain minor chord).
+const NO_CHORD = /^\(?N\.?C\.?\)?$/i;
 
-const ROOT = '[A-G](?:#{1,2}|b{1,2})?';
-const QUALITY =
-  '(?:maj|major|min|minor|dim|aug|sus)?' +
-  '[0-9]{0,2}' +
-  '(?:sus[0-9]?|add[0-9]{1,2}|dim[0-9]?|aug[0-9]?|[-+](?:5|9|11|13)|[#b][0-9]{1,2})*';
-const BASS = `(?:/${ROOT})?`;
+const NOTE = '[A-G](?:#|b|♯|♭)?';
+const SUFFIX_PIECE = '(?:maj|min|dim|aug|sus|add|alt|m|M|°|ø|\\+|-|#|b|♯|♭|\\d|\\([^)]*\\))';
+const CHORD_TOKEN_RE = new RegExp(`^${NOTE}${SUFFIX_PIECE}*(?:/${NOTE})?$`);
 
-const CHORD_TOKEN_RE = new RegExp(`^${ROOT}${QUALITY}${BASS}$`);
+const MAX_CHORD_TOKEN_LENGTH = 16;
 
 export function looksLikeChordToken(token) {
   if (!token) return false;
   const trimmed = token.trim();
-  if (!trimmed) return false;
+  if (!trimmed || trimmed.length > MAX_CHORD_TOKEN_LENGTH) return false;
   if (NO_CHORD.test(trimmed)) return true;
   return CHORD_TOKEN_RE.test(trimmed);
 }
